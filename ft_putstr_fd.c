@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:06:18 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/13 12:39:30 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/21 09:34:36 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int ft_strncmp(char *s2, char *s1, size_t len)
 	while (i < len && (src[i] || dst[i]))
 	{
 		if (src[i] != dst[i])
-			return (dst[i] - src[i]);
+			return (src[i] - dst[i]);
 		i++;
 	}
 	return (0);

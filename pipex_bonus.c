@@ -6,11 +6,27 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:10:20 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/10 19:57:55 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/19 19:52:36 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+int	strchr_new(char *str)
+{
+	int	l;
+
+	l = 0;
+	if (!str)
+		return (0);
+	while (str[l])
+	{
+		if (str[l] == '/')
+			return (1);
+		l++;
+	}
+	return (0);
+}
 
 char	*get_command_path(char **env_var, char *command)
 {
@@ -18,27 +34,24 @@ char	*get_command_path(char **env_var, char *command)
 	int		i;
 
 	i = -1;
+	if (strchr_new(command) && access(command, F_OK & X_OK))
+		return (command);
 	while (env_var[++i])
 	{
 		if (env_var[i] != NULL && ft_strncmp(env_var[i], "PATH=", 5) == 0)
 			break ;
 	}
 	env_var = ft_split(env_var[i], ':');
-	if (env_var == NULL)
-		write(2, "ERROR :", 7);
+	// if (env_var == NULL)
+	// 	write(2, "ERROR :", 7);
 	i = -1;	
 	while (env_var[++i])
 	{
 		full_path = ft_strjoin(env_var[i], "/");
 		full_path = ft_strjoin(full_path, command);
 		if (access(full_path, F_OK & X_OK) == 0)
-		{
-			printf("%s\n", full_path);
 			return (full_path);
-		}
 	}
-	perror("INVALID :");
-		exit(127);
 	return (command);
 }
 

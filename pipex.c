@@ -6,45 +6,79 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:10:23 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/13 12:40:15 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/21 10:24:31 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*get_command_path(char **env_variables, char *command)
+int strchr_new(char *str)
 {
-	char	*full_path;
-	char	**path;
-	int		i;
+	int l;
+
+	l = 0;
+	if (!str)
+		return (0);
+	while (str[l])
+	{
+		if (str[l] == '/')
+			return (1);
+		l++;
+	}
+	return (0);
+}
+
+char *get_command_path(char **env_variables, char *command)
+{
+	char *full_path;
+	int i;
 
 	i = -1;
+	if (strchr_new(command) && access(command, F_OK & X_OK))
+		return (command);
 	while (env_variables[++i])
 	{
-		if (ft_strncmp(env_variables[i], "PATH", 4) == 0)
-			break ;
+		if (ft_strncmp(env_variables[i], "PATH=", 5) == 0)
+			break;
 	}
-	path = ft_split(env_variables[i], ':');
+	if (env_variables[i] != NULL)
+		env_variables = ft_split(env_variables[i], ':');
 	i = -1;
-	while (path[++i])
+	while (env_variables && env_variables[++i])
 	{
-		full_path = ft_strjoin(ft_strjoin(path[i], "/"), command);
-		if (access(full_path, F_OK) == 0)
+		full_path = ft_strjoin(ft_strjoin(env_variables[i], "/"), command);
+		if (access(full_path, F_OK & X_OK) == 0)
 			return (full_path);
+		free(full_path);
 	}
 	return (command);
 }
 
-void	executing_command(char **av, char **env_variables, int arg_position)
+void f_error(char	)
 {
-	char	*quotes_handling;
 	t_arg	arg;
-	int		i;
+
+	if (strchr_new(arg.splited_command))
+	{
+		fprintf(stderr, "%s", "hello");
+		fprintf(stderr, "%s", arg.splited_command);
+		perror("INVALID--FULL-PATH : ");
+		exit(127);
+	}
+	else
+		error_printing("----Command Not Found----\n", ERROR_FD);
+}
+
+void executing_command(char **av, char **env_variables, int arg_position)
+{
+	char *quotes_handling;
+	t_arg arg;
+	int i;
 
 	i = 0;
 	quotes_handling = NULL;
 	if (ft_strlen(av[arg_position]) == 0)
-		error_printing("Command Not Found\n", ERROR_FD);
+		error_printing("------Command Not Found----\n", ERROR_FD);
 	quotes_handling = find_quotes_replacing(av[arg_position]);
 	arg.splited_command = ft_split(quotes_handling, ' ');
 	while (arg.splited_command[i])
@@ -53,16 +87,16 @@ void	executing_command(char **av, char **env_variables, int arg_position)
 		{
 			replacing(arg.splited_command[i] + 1, -1, ' ');
 			arg.splited_command[i] = ft_substr(arg.splited_command[i], 1,
-					ft_strlen(arg.splited_command[i]) - 2);
+											   ft_strlen(arg.splited_command[i]) - 2);
 		}
 		i++;
 	}
 	arg.full_path = get_command_path(env_variables, arg.splited_command[0]);
 	if (execve(arg.full_path, arg.splited_command, env_variables) == -1)
-		error_printing("Command Not Found\n", ERROR_FD);
+			f_error();
 }
 
-void	getting_things_ready(t_process_vars *vars, char **av, int ac)
+void getting_things_ready(t_process_vars *vars, char **av, int ac)
 {
 	(void)av;
 	vars->command_number = ac - 3;
@@ -79,8 +113,8 @@ void	getting_things_ready(t_process_vars *vars, char **av, int ac)
 	vars->pipes_array = malloc(sizeof(int *) * vars->pipes_number);
 }
 
-void	pipe_simulating(t_process_vars *vars, char **av, char **env_variables,
-		int index)
+void pipe_simulating(t_process_vars *vars, char **av, char **env_variables,
+					 int index)
 {
 	if (vars->p_ids[index] == 0)
 	{
@@ -97,15 +131,14 @@ void	pipe_simulating(t_process_vars *vars, char **av, char **env_variables,
 		else
 			duplicating(vars->pipes_array[index - 1][INPUT_FD],
 						vars->pipes_array[index][OUTPUT_FD]);
-		executing_command(av, env_variables, (index
-					+ vars->first_command_position));
+		executing_command(av, env_variables, (index + vars->first_command_position));
 	}
 }
 
-int	main(int ac, char **av, char **env_variables)
+int main(int ac, char **av, char **env_variables)
 {
-	t_process_vars	vars;
-	int				i;
+	t_process_vars vars;
+	int i;
 
 	i = 0;
 	if (ac != 5)

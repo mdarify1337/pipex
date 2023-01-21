@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:02:08 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/09 21:03:54 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/21 10:19:49 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char		**ft_split(char  *s, char c);
 void		error_printing(char *str, int standard);
 char		*get_next_line(int fd);
 int			ft_strcmp( char *s2,  char *s1);
-int			ft_strncmp( char *s2,  char *s1, size_t len);
+int 		ft_strncmp(char *s2, char *s1, size_t len);
 char		*ft_substr(char  *s, unsigned int start, size_t len);
 char		*find_quotes_replacing(char *command);
 void		replacing(char *s, char to_be_replaced, char replacer);
