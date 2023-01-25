@@ -125,6 +125,11 @@ int	main(int ac, char **av, char **env_variables)
 	int				i;
 
 	i = 0;
+	if (ac < 5)
+	{
+		error_printing("INVALID NUMBER OF ARGUMENTS\n", ERROR_FD);
+		exit(1);
+	}
 	getting_things_ready(&vars, av, ac);
 	while (i < vars.command_number)
 	{
