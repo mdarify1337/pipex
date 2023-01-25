@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 21:29:03 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/21 06:28:03 by mdarify          ###   ########.fr       */
+/*   Updated: 2022/12/27 10:41:07 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	}
 	pdf = ft_strcat(pdf, s1, s2);
-	// free(s1);
+	free(s1);
 	return (pdf);
 }

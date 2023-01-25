@@ -6,31 +6,16 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:10:20 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/19 19:52:36 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/25 10:12:30 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	strchr_new(char *str)
-{
-	int	l;
-
-	l = 0;
-	if (!str)
-		return (0);
-	while (str[l])
-	{
-		if (str[l] == '/')
-			return (1);
-		l++;
-	}
-	return (0);
-}
-
 char	*get_command_path(char **env_var, char *command)
 {
 	char	*full_path;
+	char	**path;
 	int		i;
 
 	i = -1;
@@ -41,14 +26,13 @@ char	*get_command_path(char **env_var, char *command)
 		if (env_var[i] != NULL && ft_strncmp(env_var[i], "PATH=", 5) == 0)
 			break ;
 	}
-	env_var = ft_split(env_var[i], ':');
-	// if (env_var == NULL)
-	// 	write(2, "ERROR :", 7);
-	i = -1;	
-	while (env_var[++i])
+	path = ft_split(env_var[i], ':');
+	// if (path == NULL)
+	// 	write(2, "---Command not found---\n", 25);
+	i = -1;
+	while (path[++i])
 	{
-		full_path = ft_strjoin(env_var[i], "/");
-		full_path = ft_strjoin(full_path, command);
+		full_path = ft_strjoin(ft_strjoin(path[i], "/"), command);
 		if (access(full_path, F_OK & X_OK) == 0)
 			return (full_path);
 	}
@@ -64,7 +48,7 @@ void	executing_command(char **av, char **env_variables, int arg_position)
 	i = 0;
 	quotes_handling = NULL;
 	if (ft_strlen(av[arg_position]) == 0)
-		error_printing("Command Not Found\n", ERROR_FD);
+		f_error_2();
 	quotes_handling = find_quotes_replacing(av[arg_position]);
 	arg.splited_command = ft_split(quotes_handling, ' ');
 	while (arg.splited_command[i])
@@ -79,7 +63,7 @@ void	executing_command(char **av, char **env_variables, int arg_position)
 	}
 	arg.full_path = get_command_path(env_variables, arg.splited_command[0]);
 	if (execve(arg.full_path, arg.splited_command, env_variables) == -1)
-		error_printing("Command Not Found\n", ERROR_FD);
+		f_error(arg);
 }
 
 void	getting_things_ready(t_process_vars *vars, char **av, int ac)
@@ -119,17 +103,20 @@ void	pipe_simulating(t_process_vars *vars, char **av, char **env_variables,
 		if (index == 0)
 		{
 			if (vars->input_fd < 0)
-				error_printing("no such file or directory\n", OUTPUT_FD);
+			{
+				error_printing("--no such file or directory--\n", OUTPUT_FD);
+				exit(127);
+			}
 			duplicating(vars->input_fd, vars->pipes_array[index][1]);
 		}
 		else if (index == vars->command_number - 1)
 			duplicating(vars->pipes_array[index - 1][INPUT_FD],
-						vars->output_fd);
+				vars->output_fd);
 		else
 			duplicating(vars->pipes_array[index - 1][INPUT_FD],
-						vars->pipes_array[index][OUTPUT_FD]);
+				vars->pipes_array[index][OUTPUT_FD]);
 		executing_command(av, env_variables, (index
-					+ vars->first_command_position));
+				+ vars->first_command_position));
 	}
 }
 

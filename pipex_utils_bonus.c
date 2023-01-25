@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:31:41 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/13 12:34:51 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/24 17:48:59 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	get_input_lines(char *limiter)
 	char	*last;
 	int		hidden_file_fd;
 
+	write(0, "heredoc>", 8);
 	last = get_next_line(0);
 	unlink(HIDDEN_FILE);
 	hidden_file_fd = open(HIDDEN_FILE, O_WRONLY | O_CREAT, FULL_ACCESS);
@@ -77,6 +78,7 @@ int	get_input_lines(char *limiter)
 		if (ft_strncmp(last, limiter, ft_strlen(limiter)) == 0)
 			if (last[ft_strlen(limiter)] == '\n')
 				break ;
+		write(0, "heredoc>", 8);
 		ft_putstr_fd(last, hidden_file_fd);
 		ft_putstr_fd("\n", hidden_file_fd);
 		free(last);

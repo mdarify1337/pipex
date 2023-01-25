@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:30:52 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/06 17:35:39 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/24 21:28:21 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,26 @@ void	replacing(char *s, char to_be_replaced, char replacer)
 			s[i] = replacer;
 		i++;
 	}
+}
+
+void	f_error_2(void)
+{
+	error_printing("Command Not Found\n", ERROR_FD);
+	exit(127);
+}
+
+int	strchr_new(char *str)
+{
+	int	l;
+
+	l = 0;
+	if (!str)
+		return (0);
+	while (str[l])
+	{
+		if (str[l] == '/')
+			return (1);
+		l++;
+	}
+	return (0);
 }

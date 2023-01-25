@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:06:18 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/21 09:34:36 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/24 18:49:35 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-void	error_printing(char *str, int standard)
-{
-	ft_putstr_fd(str, standard);
-	exit(1);
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	size_t	i;
@@ -40,7 +34,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int ft_strncmp(char *s2, char *s1, size_t len)
+int	ft_strncmp(char *s2, char *s1, size_t len)
 {
 	unsigned char	*src;
 	unsigned char	*dst;
@@ -52,7 +46,7 @@ int ft_strncmp(char *s2, char *s1, size_t len)
 	while (i < len && (src[i] || dst[i]))
 	{
 		if (src[i] != dst[i])
-			return (src[i] - dst[i]);
+			return (dst[i] - src[i]);
 		i++;
 	}
 	return (0);
