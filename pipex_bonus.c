@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:10:20 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/25 10:12:30 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:35:17 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*get_command_path(char **env_var, char *command)
 			break ;
 	}
 	path = ft_split(env_var[i], ':');
-	// if (path == NULL)
-	// 	write(2, "---Command not found---\n", 25);
+	if (path == NULL)
+		write(2, "---Command not found---\n", 25);
 	i = -1;
 	while (path[++i])
 	{
@@ -46,11 +46,10 @@ void	executing_command(char **av, char **env_variables, int arg_position)
 	int		i;
 
 	i = 0;
-	quotes_handling = NULL;
-	if (ft_strlen(av[arg_position]) == 0)
-		f_error_2();
 	quotes_handling = find_quotes_replacing(av[arg_position]);
 	arg.splited_command = ft_split(quotes_handling, ' ');
+	if (arg.splited_command[0] == '\0')
+		f_error_2();
 	while (arg.splited_command[i])
 	{
 		if (arg.splited_command[i][0] == '\'')

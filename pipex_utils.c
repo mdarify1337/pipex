@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:36:47 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/25 10:20:37 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:00:13 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ int	strchr_new(char *str)
 	while (str[l])
 	{
 		if (str[l] == '/')
+			return (1);
+		l++;
+	}
+	return (0);
+}
+
+int	ft_strchr_new2(char *str)
+{
+	int	l;
+
+	l = 0;
+	if (!str)
+		return (0);
+	while (str[l])
+	{
+		if (str[l] == ' ')
 			return (1);
 		l++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:10:23 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/25 10:20:14 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:33:02 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ void	executing_command(char **av, char **env_variables, int arg_position)
 	char	*quotes_handling;
 	t_arg	arg;
 	int		i;
+	int		j;
 
 	i = 0;
-	quotes_handling = NULL;
-	if (ft_strlen(av[arg_position]) == 0)
-		f_error2();
+	j = 0;
 	quotes_handling = find_quotes_replacing(av[arg_position]);
 	arg.s_cmd = ft_split(quotes_handling, ' ');
+	if (arg.s_cmd[0] == '\0')
+		f_error2();
 	while (arg.s_cmd[i])
 	{
 		if (arg.s_cmd[i][0] == '\'')

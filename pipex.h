@@ -6,7 +6,7 @@
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 20:02:08 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/24 21:16:23 by mdarify          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:00:49 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct argument
 void		f_error3(void);
 void		f_error2(void);
 void		f_error(t_arg arg);
+int			ft_strchr_new2(char *str);
 int			strchr_new(char *str);
 size_t		ft_strlen(char *str);
 char		*ft_strjoin(char *s1, char *s2);

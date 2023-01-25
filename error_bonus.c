@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdarify <mdarify@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 18:48:57 by mdarify           #+#    #+#             */
-/*   Updated: 2023/01/25 11:55:45 by mdarify          ###   ########.fr       */
+/*   Created: 2023/01/25 11:53:01 by mdarify           #+#    #+#             */
+/*   Updated: 2023/01/25 11:54:14 by mdarify          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	error_printing(char *str, int standard)
 {
@@ -25,7 +25,7 @@ void	f_error2(void)
 
 void	f_error(t_arg arg)
 {
-	if (strchr_new(arg.s_cmd[0]) == 1)
+	if (strchr_new(arg.splited_command[0]) == 1)
 	{
 		error_printing("-No such file or directory-\n", ERROR_FD);
 		exit(127);
